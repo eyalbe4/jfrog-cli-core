@@ -236,7 +236,7 @@ func getLocalDependencies(addDepsParams *specutils.CommonParams) ([]string, erro
 	}
 
 	if !isDir || fileutils.IsPathSymlink(addDepsParams.GetPattern()) {
-		artifact, err := fspatterns.GetSingleFileToUpload(rootPath, "", false)
+		artifact, err := fspatterns.GetSingleFileToUpload(rootPath, "", false, false)
 		if err != nil {
 			return nil, err
 		}
