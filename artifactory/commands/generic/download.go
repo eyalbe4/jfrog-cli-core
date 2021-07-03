@@ -2,6 +2,7 @@ package generic
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -88,6 +89,10 @@ func (dc *DownloadCommand) download() error {
 			log.Error(err)
 			continue
 		}
+
+		fmt.Println("++++++ a")
+		fmt.Println(downParams.Pattern)
+
 		downloadParamsArray = append(downloadParamsArray, downParams)
 	}
 	// Perform download.
