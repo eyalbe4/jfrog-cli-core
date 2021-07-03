@@ -1,6 +1,7 @@
 package generic
 
 import (
+	"fmt"
 	commandsutils "github.com/jfrog/jfrog-cli-core/artifactory/commands/utils"
 	"github.com/jfrog/jfrog-cli-core/common/spec"
 	"github.com/jfrog/jfrog-cli-core/utils/config"
@@ -66,6 +67,9 @@ func (gc *GenericCommand) Spec() *spec.SpecFiles {
 }
 
 func (gc *GenericCommand) SetSpec(spec *spec.SpecFiles) *GenericCommand {
+	fmt.Println("++++++++ b")
+	fmt.Println(spec.Get(0).Pattern)
+	
 	gc.spec = spec
 	return gc
 }
