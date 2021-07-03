@@ -26,7 +26,6 @@ import (
 	"github.com/jfrog/jfrog-client-go/utils/io/fileutils"
 	"github.com/jfrog/jfrog-client-go/utils/io/fileutils/checksum"
 	"github.com/jfrog/jfrog-client-go/utils/log"
-	"github.com/jfrog/jfrog-client-go/utils/version"
 )
 
 // Represent go project
@@ -121,26 +120,6 @@ func (project *goProject) PublishPackage(targetRepo, buildName, buildNumber, pro
 	params.ZipPath, err = project.archiveProject(project.version, tempDirPath)
 	if err != nil {
 		return nil, err
-	}
-	// Create the info file if Artifactory version is 6.10.0 and above.
-	artifactoryVersion, err := servicesManager.GetConfig().GetServiceDetails().GetVersion()
-	if err != nil {
-		return nil, err
-	}
-	version := version.NewVersion(artifactoryVersion)
-	if version.AtLeast(_go.ArtifactoryMinSupportedVersion) {
-		pathToInfo, err := project.createInfoFile()
-		if err != nil {
-			return nil, err
-		}
-		defer os.Remove(pathToInfo)
-		if len(buildName) > 0 && len(buildNumber) > 0 {
-			err = project.addInfoFileToBuildInfo(pathToInfo)
-			if err != nil {
-				return nil, err
-			}
-		}
-		params.InfoPath = pathToInfo
 	}
 
 	return servicesManager.PublishGoProject(params)
