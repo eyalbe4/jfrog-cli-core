@@ -3,12 +3,6 @@ package utils
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
-	"net/http"
-	"os"
-	"path/filepath"
-	"runtime"
-
 	"github.com/jfrog/jfrog-cli-core/utils/config"
 	"github.com/jfrog/jfrog-client-go/http/httpclient"
 	"github.com/jfrog/jfrog-client-go/utils/errorutils"
@@ -16,12 +10,14 @@ import (
 	"github.com/jfrog/jfrog-client-go/utils/log"
 	"github.com/jfrog/jfrog-client-go/utils/version"
 	"github.com/jfrog/jfrog-client-go/xray"
+	"io/ioutil"
+	"net/http"
+	"path/filepath"
+	"runtime"
 )
 
 const indexerFileName = "indexer-app"
-
-// TODO: Should be changed back to 3.28.0 before merge
-const graphScanMinVersion = "3.0.0"
+const graphScanMinVersion = "3.28.0"
 
 func DownloadIndexerIfNeeded(xrayManager *xray.XrayServicesManager) (string, error) {
 	xrayVersionStr, err := xrayManager.GetVersion()
@@ -52,9 +48,7 @@ func DownloadIndexerIfNeeded(xrayManager *xray.XrayServicesManager) (string, err
 	if err != nil {
 		return "", err
 	}
-	// Add execution premissions to the indexer
-	err = os.Chmod(indexerPath, 0777)
-	return indexerPath, err
+	return indexerPath, nil
 }
 
 func downloadIndexer(xrayManager *xray.XrayServicesManager, downloadDirPath string) error {

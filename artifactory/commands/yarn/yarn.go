@@ -5,11 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"os"
-	"os/exec"
-	"path/filepath"
-	"strings"
-
 	"github.com/jfrog/gofrog/parallel"
 	commandUtils "github.com/jfrog/jfrog-cli-core/artifactory/commands/utils"
 	"github.com/jfrog/jfrog-cli-core/artifactory/utils"
@@ -24,6 +19,10 @@ import (
 	"github.com/jfrog/jfrog-client-go/utils/errorutils"
 	"github.com/jfrog/jfrog-client-go/utils/log"
 	"github.com/jfrog/jfrog-client-go/utils/version"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
 )
 
 const yarnrcFileName = ".yarnrc.yml"
@@ -42,7 +41,7 @@ type YarnCommand struct {
 	yarnArgs           []string
 	threads            int
 	yarnrcFileMode     os.FileMode
-	packageInfo        *coreutils.PackageInfo
+	packageInfo        *commandUtils.PackageInfo
 	serverDetails      *config.ServerDetails
 	authArtDetails     auth.ServiceDetails
 	buildConfiguration *utils.BuildConfiguration
@@ -76,7 +75,7 @@ func (yc *YarnCommand) Run() error {
 	}
 
 	var filteredYarnArgs []string
-	yc.threads, _, _, filteredYarnArgs, yc.buildConfiguration, err = commandUtils.ExtractNpmOptionsFromArgs(yc.yarnArgs)
+	yc.threads, _, filteredYarnArgs, yc.buildConfiguration, err = commandUtils.ExtractNpmOptionsFromArgs(yc.yarnArgs)
 	if err != nil {
 		return err
 	}
@@ -168,7 +167,7 @@ func (yc *YarnCommand) preparePrerequisites() error {
 		return err
 	}
 
-	yc.workingDirectory, err = coreutils.GetWorkingDirectory()
+	yc.workingDirectory, err = commandUtils.GetWorkingDirectory()
 	if err != nil {
 		return err
 	}

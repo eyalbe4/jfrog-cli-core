@@ -49,7 +49,7 @@ func (cb *CreateBundleCommand) Run() error {
 	}
 
 	for _, spec := range cb.spec.Files {
-		params, err := spec.ToCommonParams()
+		params, err := spec.ToArtifactoryCommonParams()
 		if err != nil {
 			return err
 		}

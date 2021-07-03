@@ -3,10 +3,9 @@ package coreutils
 import (
 	"errors"
 	"fmt"
+	"github.com/mattn/go-shellwords"
 	"strconv"
 	"strings"
-
-	"github.com/mattn/go-shellwords"
 
 	"github.com/jfrog/jfrog-client-go/utils/errorutils"
 )
@@ -152,17 +151,6 @@ func ExtractDetailedSummaryFromArgs(args []string) (cleanArgs []string, detailed
 	cleanArgs = append([]string(nil), args...)
 
 	flagIndex, detailedSummary, err := FindBooleanFlag("--detailed-summary", args)
-	if err != nil {
-		return
-	}
-	RemoveFlagFromCommand(&cleanArgs, flagIndex, flagIndex)
-	return
-}
-
-func ExtractXrayScanFromArgs(args []string) (cleanArgs []string, xrayScan bool, err error) {
-	cleanArgs = append([]string(nil), args...)
-
-	flagIndex, xrayScan, err := FindBooleanFlag("--scan", args)
 	if err != nil {
 		return
 	}
